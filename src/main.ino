@@ -1,5 +1,11 @@
 #include <Adafruit_TLC59711.h>
 
+// This one is working, e.g using default pins
+// data: 11
+// clock: 13
+Adafruit_TLC59711 tlc = Adafruit_TLC59711(1);
+
+// The following is not working
 Adafruit_TLC59711 tlc = Adafruit_TLC59711(1, 5, 4);
 
 void setup() {
