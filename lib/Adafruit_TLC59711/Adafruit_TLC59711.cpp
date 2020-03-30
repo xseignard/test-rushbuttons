@@ -33,9 +33,9 @@ Adafruit_TLC59711::Adafruit_TLC59711(uint8_t n, uint8_t c, uint8_t d) {
   _clk = c;
   _dat = d;
 
-  BCr = BCg = BCb = 0x7F; // default 100% brigthness
+  BCr = BCg = BCb = 0x7F;  // default 100% brigthness
 
-  pwmbuffer = (uint16_t *)calloc(2, 12 * n);
+  pwmbuffer = (uint16_t*)calloc(2, 12 * n);
 }
 
 /*!
@@ -45,15 +45,15 @@ Adafruit_TLC59711::Adafruit_TLC59711(uint8_t n, uint8_t c, uint8_t d) {
  *  @param  *theSPI
  *          spi object
  */
-Adafruit_TLC59711::Adafruit_TLC59711(uint8_t n, SPIClass *theSPI) {
+Adafruit_TLC59711::Adafruit_TLC59711(uint8_t n, SPIClass* theSPI) {
   numdrivers = n;
   _clk = -1;
   _dat = -1;
   _spi = theSPI;
 
-  BCr = BCg = BCb = 0x7F; // default 100% brigthness
+  BCr = BCg = BCb = 0x7F;  // default 100% brigthness
 
-  pwmbuffer = (uint16_t *)calloc(2, 12 * n);
+  pwmbuffer = (uint16_t*)calloc(2, 12 * n);
 }
 
 /*!
@@ -119,11 +119,12 @@ void Adafruit_TLC59711::write() {
     }
   }
 
-  if (_clk >= 0)
+  if (_clk >= 0) {
     delayMicroseconds(200);
-  else
+  } else {
     delayMicroseconds(2);
-    _spi->endTransaction();
+  }
+  _spi->endTransaction();
 
   interrupts();
 }
@@ -136,8 +137,7 @@ void Adafruit_TLC59711::write() {
  *          pwm value
  */
 void Adafruit_TLC59711::setPWM(uint8_t chan, uint16_t pwm) {
-  if (chan > 12 * numdrivers)
-    return;
+  if (chan > 12 * numdrivers) return;
   pwmbuffer[chan] = pwm;
 }
 
@@ -152,8 +152,7 @@ void Adafruit_TLC59711::setPWM(uint8_t chan, uint16_t pwm) {
  *  @param b
  *          blue value
  */
-void Adafruit_TLC59711::setLED(uint8_t lednum, uint16_t r, uint16_t g,
-                               uint16_t b) {
+void Adafruit_TLC59711::setLED(uint8_t lednum, uint16_t r, uint16_t g, uint16_t b) {
   setPWM(lednum * 3, r);
   setPWM(lednum * 3 + 1, g);
   setPWM(lednum * 3 + 2, b);
@@ -166,7 +165,7 @@ void Adafruit_TLC59711::setLED(uint8_t lednum, uint16_t r, uint16_t g,
  */
 void Adafruit_TLC59711::simpleSetBrightness(uint8_t BC) {
   if (BC > 127) {
-    BC = 127; // maximum possible value since BC can only be 7 bit
+    BC = 127;  // maximum possible value since BC can only be 7 bit
   } else if (BC < 0) {
     BC = 0;
   }
@@ -185,7 +184,7 @@ void Adafruit_TLC59711::simpleSetBrightness(uint8_t BC) {
  */
 void Adafruit_TLC59711::setBrightness(uint8_t bcr, uint8_t bcg, uint8_t bcb) {
   if (bcr > 127) {
-    bcr = 127; // maximum possible value since BC can only be 7 bit
+    bcr = 127;  // maximum possible value since BC can only be 7 bit
   } else if (bcr < 0) {
     bcr = 0;
   }
@@ -193,7 +192,7 @@ void Adafruit_TLC59711::setBrightness(uint8_t bcr, uint8_t bcg, uint8_t bcb) {
   BCr = bcr;
 
   if (bcg > 127) {
-    bcg = 127; // maximum possible value since BC can only be 7 bit
+    bcg = 127;  // maximum possible value since BC can only be 7 bit
   } else if (bcg < 0) {
     bcg = 0;
   }
@@ -201,7 +200,7 @@ void Adafruit_TLC59711::setBrightness(uint8_t bcr, uint8_t bcg, uint8_t bcb) {
   BCg = bcg;
 
   if (bcb > 127) {
-    bcb = 127; // maximum possible value since BC can only be 7 bit
+    bcb = 127;  // maximum possible value since BC can only be 7 bit
   } else if (bcb < 0) {
     bcb = 0;
   }
@@ -214,8 +213,7 @@ void Adafruit_TLC59711::setBrightness(uint8_t bcr, uint8_t bcg, uint8_t bcb) {
  *  @return If successful returns true, otherwise false
  */
 boolean Adafruit_TLC59711::begin() {
-  if (!pwmbuffer)
-    return false;
+  if (!pwmbuffer) return false;
 
   if (_clk >= 0) {
     pinMode(_clk, OUTPUT);
