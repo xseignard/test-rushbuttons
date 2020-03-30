@@ -2,4 +2,4 @@ BasedOnStyle: Chromium
 AllowShortIfStatementsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: true
-ColumnLimit: 100
+ColumnLimit: 170
