@@ -1,5 +1,4 @@
 #include <Adafruit_TLC59711.h>
-#include <SPI.h>
 #include <wiring_private.h>
 
 // This one is working, e.g using default pins
@@ -20,24 +19,24 @@ Adafruit_TLC59711 tlc = Adafruit_TLC59711(1, &SPI2);
 
 void setup() {
   SerialUSB.begin(9600);
-  SPI2.begin();
   pinPeripheral(3, PIO_SERCOM_ALT);
   pinPeripheral(4, PIO_SERCOM_ALT);
   pinPeripheral(5, PIO_SERCOM);
   tlc.begin();
   tlc.write();
 }
+
 void loop() {
-  tlc.simpleSetBrightness(128);
-  tlc.write();
+  SerialUSB.println("White");
   for (int i = 0; i < 4; i++) {
     tlc.setLED(i, 65535, 65535, 65535);
-    tlc.write();
   }
-  delay(5000);
+  tlc.write();
+  delay(1000);
+  SerialUSB.println("Black");
   for (int i = 0; i < 4; i++) {
     tlc.setLED(i, 0, 0, 0);
-    tlc.write();
   }
-  delay(5000);
+  tlc.write();
+  delay(1000);
 }
